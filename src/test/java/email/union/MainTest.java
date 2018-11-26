@@ -1,5 +1,6 @@
 package email.union;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.peer.SystemTrayPeer;
@@ -19,11 +20,15 @@ public class MainTest {
 
         for (String s : testStr)
             Main.addUserEmails(s);
+
+        Assert.assertEquals(Main.emailMap.size(),7);
     }
 
     @Test
     public void testGetUsersEmails(){
         Main.getUsersEmails();
+
+        Assert.assertEquals(Main.resultMap.size(),2);
     }
 
     @Test

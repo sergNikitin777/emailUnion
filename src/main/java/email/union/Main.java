@@ -5,26 +5,47 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    //private static Map<String, List<String>> usersMap = new HashMap<>();
-    private static Map<String, List<String>> resultMap = new HashMap<>();
-    private static Map<String, String> emailMap = new HashMap<>();
+    public static Map<String, List<String>> resultMap = new HashMap<>();
+    public static Map<String, String> emailMap = new HashMap<>();
+
+    static
+    {
+        System.out.println("input example : user1 -> xxx@ya.ru, foo@gmail.com, lol@mail.ru");;
+        System.out.println("for union emails input \"u\"");
+        System.out.println("for exit input \"q\"");
+    }
 
     public static void main(String[] args) {
 
+        Scanner scanner = new Scanner(System.in);
+
+        while ( scanner.hasNext()) {
+            String input = scanner.nextLine();
+
+            if ("u".equals(input)){
+                break;
+            }
+
+            if ("q".equals(input)){
+                return;
+            }
+
+            addUserEmails(input);
+        }
+
+        getUsersEmails();
+
+        printResults();
     }
 
     public static void addUserEmails(String userStr) {
-        System.out.println("input str :" + userStr);
+        //System.out.println(userStr);
 
         final String key = userStr.substring(0, userStr.indexOf("->")).trim();
-        final String listStr = userStr.substring(userStr.lastIndexOf("->") + 2).trim();
+        final String listStr = userStr.substring(userStr.indexOf("->") + 2).trim();
         final List<String> listEmail = Arrays.asList(listStr.trim().split("\\s*,\\s*"));
 
-        //System.out.println("key :" + key);
-        //System.out.println("listStr :" + listStr);
-        //System.out.println("listEmail :" + listEmail.p);
-
-         String foundUser=null;
+        String foundUser=null;
 
         for (String email : listEmail) {
             if (emailMap.get(email) != null) {
@@ -42,7 +63,6 @@ public class Main {
             }
         }
 
-        System.out.println("--");
     }
 
     public static void getUsersEmails(){
@@ -61,7 +81,7 @@ public class Main {
 
     public static void printResults(){
         for( Map.Entry<String,List<String>> listEntry : resultMap.entrySet()){
-            System.out.println(listEntry.getKey() + "->" + listEntry.getValue().stream()
+            System.out.println(listEntry.getKey() + " -> " + listEntry.getValue().stream()
                     .collect(Collectors.joining(",")));
         }
     }
