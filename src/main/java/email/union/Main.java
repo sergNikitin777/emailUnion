@@ -5,12 +5,11 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    public static Map<String, List<String>> resultMap = new HashMap<>();
-    public static Map<String, String> emailMap = new HashMap<>();
+    protected static final Map<String, List<String>> resultMap = new HashMap<>();
+    protected static final Map<String, String> emailMap = new HashMap<>();
 
-    static
-    {
-        System.out.println("input example : user1 -> xxx@ya.ru, foo@gmail.com, lol@mail.ru");;
+    static {
+        System.out.println("input example : user1 -> xxx@ya.ru, foo@gmail.com, lol@mail.ru");
         System.out.println("for union emails input \"u\"");
         System.out.println("for exit input \"q\"");
     }
@@ -19,14 +18,14 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        while ( scanner.hasNext()) {
+        while (scanner.hasNext()) {
             String input = scanner.nextLine();
 
-            if ("u".equals(input)){
+            if ("u".equals(input)) {
                 break;
             }
 
-            if ("q".equals(input)){
+            if ("q".equals(input)) {
                 return;
             }
 
@@ -39,13 +38,12 @@ public class Main {
     }
 
     public static void addUserEmails(String userStr) {
-        //System.out.println(userStr);
 
         final String key = userStr.substring(0, userStr.indexOf("->")).trim();
         final String listStr = userStr.substring(userStr.indexOf("->") + 2).trim();
         final List<String> listEmail = Arrays.asList(listStr.trim().split("\\s*,\\s*"));
 
-        String foundUser=null;
+        String foundUser = null;
 
         for (String email : listEmail) {
             if (emailMap.get(email) != null) {
@@ -53,34 +51,34 @@ public class Main {
             }
         }
 
-        if (foundUser!=null){
+        if (foundUser != null) {
             for (String email : listEmail) {
-                emailMap.put(email,foundUser);
+                emailMap.put(email, foundUser);
             }
-        }else {
+        } else {
             for (String email : listEmail) {
-                emailMap.put(email,key);
+                emailMap.put(email, key);
             }
         }
 
     }
 
-    public static void getUsersEmails(){
-        for(Map.Entry<String,String> entry : emailMap.entrySet()){
-            if (resultMap.get(entry.getValue())==null){
-                List<String> emails = new ArrayList<String>();
+    public static void getUsersEmails() {
+        for (Map.Entry<String, String> entry : emailMap.entrySet()) {
+            if (resultMap.get(entry.getValue()) == null) {
+                List<String> emails = new ArrayList<>();
                 emails.add(entry.getKey());
-                resultMap.put(entry.getValue(),emails);
-            }else{
+                resultMap.put(entry.getValue(), emails);
+            } else {
                 List<String> emails = resultMap.get(entry.getValue());
                 emails.add(entry.getKey());
-                resultMap.put(entry.getValue(),emails);
+                resultMap.put(entry.getValue(), emails);
             }
         }
     }
 
-    public static void printResults(){
-        for( Map.Entry<String,List<String>> listEntry : resultMap.entrySet()){
+    public static void printResults() {
+        for (Map.Entry<String, List<String>> listEntry : resultMap.entrySet()) {
             System.out.println(listEntry.getKey() + " -> " + listEntry.getValue().stream()
                     .collect(Collectors.joining(",")));
         }
